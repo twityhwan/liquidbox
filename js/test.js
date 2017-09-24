@@ -8,6 +8,7 @@ var canvasLeft;
 function init() {
     createGround(world);
     createBox(world, 100, 100, 50, 50, true);
+    createSVG(world, 200, 200, "./svg/svg.svg", true);
 }
 
 Event.observe(window, 'load', function() {

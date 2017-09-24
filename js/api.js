@@ -1,3 +1,4 @@
+var Svg = Matter.Svg;
 function createWorld() {
     var worldAABB = new b2AABB();
     worldAABB.minVertex.Set(-1000, -1000);
@@ -30,4 +31,14 @@ function createGround(world) {
     groundBd.AddShape(groundSd);
     groundBd.position.Set(-500, 340);
     return world.CreateBody(groundBd)
+}
+
+function createSVG(world, x, y, path, fixed) {
+    // TODO: type check
+    jQuery.get(path).done(function(data) {
+        var vertexSets = [];
+        jQuery(data).find('path').each(function(i, path) {
+            vertexSets.push(Svg.pathToVertices(path, 30));
+        });
+    });
 }
