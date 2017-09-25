@@ -45,7 +45,6 @@ function createSVG(world, x, y, path, fixed, ctx) {
             var vs = vertexSets[i];
             createEdgesFromVertexSet(world, vs);
         }
-        drawWorld(world, ctx);
     });
 }
 
@@ -70,4 +69,42 @@ function createEdgeBody(v1, v2) {
     edgeBd.AddShape(edgeSd);
     edgeBd.position.Set(100, 100);
     return edgeBd;
+}
+
+function createParticle(world) {
+    var points = [[-30, 0], [30, 0], [0, 15]];
+    var polySd = new b2PolyDef();
+    polySd.density = 1.0;
+    polySd.friction = 0;
+    polySd.vertexCount = points.length;
+    for (var i = 0; i < points.length; i++) {
+        polySd.vertices[i].Set(points[i][0], points[i][1]);
+    }
+    var polyBd = new b2BodyDef();
+    polyBd.AddShape(polySd);
+    polyBd.position.Set(200, 200);
+    world.CreateBody(polyBd);
+}
+
+function createBall(world, x, y) {
+	var ballSd = new b2CircleDef();
+	ballSd.density = 1.0;
+	ballSd.radius = 20;
+	ballSd.restitution = 1.0;
+	ballSd.friction = 0;
+	var ballBd = new b2BodyDef();
+	ballBd.AddShape(ballSd);
+	ballBd.position.Set(x,y);
+	return world.CreateBody(ballBd);
+}
+
+function createBox(world, x, y, width, height, fixed) {
+	if (typeof(fixed) == 'undefined') fixed = true;
+	var boxSd = new b2BoxDef();
+	if (!fixed) boxSd.density = 1.0;
+	boxSd.extents.Set(width, height);
+	var boxBd = new b2BodyDef();
+	boxBd.AddShape(boxSd);
+	boxBd.position.Set(x,y);
+	return world.CreateBody(boxBd)
 }
