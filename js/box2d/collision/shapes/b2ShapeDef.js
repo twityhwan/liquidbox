@@ -79,7 +79,10 @@ b2ShapeDef.prototype =
 				b2Shape.PolyMass(massData, poly.vertices, poly.vertexCount, this.density);
 			}
 			break;
-
+                case b2Shape.e_edgeShape:
+                        {
+                        }
+                        break;
 		default:
 			massData.mass = 0.0;
 			massData.center.Set(0.0, 0.0);

@@ -33,12 +33,41 @@ function createGround(world) {
     return world.CreateBody(groundBd)
 }
 
-function createSVG(world, x, y, path, fixed) {
+function createSVG(world, x, y, path, fixed, ctx) {
     // TODO: type check
     jQuery.get(path).done(function(data) {
         var vertexSets = [];
         jQuery(data).find('path').each(function(i, path) {
             vertexSets.push(Svg.pathToVertices(path, 30));
         });
+
+        for (var i=0; i<vertexSets.length; i++) {
+            var vs = vertexSets[i];
+            createEdgesFromVertexSet(world, vs);
+        }
+        drawWorld(world, ctx);
     });
+}
+
+function createEdgesFromVertexSet(world, vs) {
+    if (vs.length < 2) return;
+    var i;
+    for(i=0; i<vs.length-1; i++) {
+        var v1 = vs[i];
+        var v2 = vs[i+1];
+        world.CreateBody(createEdgeBody(v1, v2));
+    }
+    world.CreateBody(createEdgeBody(vs[i], vs[0]));
+
+}
+
+function createEdgeBody(v1, v2) {
+    var edgeSd = new b2EdgeDef();
+    edgeSd.vertex1 = b2Vec2.Make(v1.x, v1.y);
+    edgeSd.vertex2 = b2Vec2.Make(v2.x, v2.y);
+
+    var edgeBd = new b2BodyDef();
+    edgeBd.AddShape(edgeSd);
+    edgeBd.position.Set(100, 100);
+    return edgeBd;
 }

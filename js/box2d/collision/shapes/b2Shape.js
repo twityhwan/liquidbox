@@ -26,7 +26,7 @@
 // Shapes are created automatically when a body is created.
 // Client code does not normally interact with shapes.
 var b2Shape = Class.create();
-b2Shape.prototype = 
+b2Shape.prototype =
 {
 	TestPoint: function(p){return false},
 
@@ -162,6 +162,13 @@ b2Shape.Create = function(def, body, center){
 				//void* mem = body->m_world->m_blockAllocator.Allocate(sizeof(b2PolyShape));
 				return new b2PolyShape(def, body, center);
 			}
+                // added by twityhwan@gmail.com
+                case b2Shape.e_edgeShape:
+                        {
+                                return new b2EdgeShape(def, body, center);
+                        }
+                //
+
 		}
 
 		//b2Settings.b2Assert(false);
@@ -198,7 +205,11 @@ b2Shape.e_circleShape = 0;
 b2Shape.e_boxShape = 1;
 b2Shape.e_polyShape = 2;
 b2Shape.e_meshShape = 3;
-b2Shape.e_shapeTypeCount = 4;
+// added by twityhwan@gmail.com
+b2Shape.e_edgeShape = 4;
+b2Shape.e_shapeTypeCount = 5;
+//
+
 b2Shape.PolyMass = function(massData, vs, count, rho)
 	{
 		//b2Settings.b2Assert(count >= 3);

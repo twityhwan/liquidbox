@@ -87,6 +87,15 @@ function drawShape(shape, context) {
 			context.lineTo(tV.x, tV.y);
 		}
 		break;
+        case b2Shape.e_edgeShape:
+                {
+                        var edge = shape;
+			var v1 = b2Math.AddVV(edge.m_position, b2Math.b2MulMV(edge.m_R, edge.m_vertices[0]));
+			var v2 = b2Math.AddVV(edge.m_position, b2Math.b2MulMV(edge.m_R, edge.m_vertices[1]));
+                        context.moveTo(v1.x, v1.y);
+                        context.lineTo(v2.x, v2.y);
+                }
+                break;
 	}
 	context.stroke();
 }
